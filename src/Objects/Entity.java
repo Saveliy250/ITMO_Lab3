@@ -22,9 +22,9 @@ public class Entity extends Obj{
         }
 
     }
-    public void doSmth(Action act, Obj obj){
+    public void doSmth(Action act, Obj obj, String pr){
         doSmth(act);
-        System.out.print(" " + obj);
+        System.out.print(" " + pr + " " + obj);
     }
 
 }
