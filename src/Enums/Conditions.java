@@ -2,7 +2,11 @@ package Enums;
 
 public enum Conditions {
     TIRED ("усталый"),
-    BIG ("большая");
+    BIG ("большая"),
+    WET("мокрый");
+
+
+
 
     private String title;
     Conditions(String title){
