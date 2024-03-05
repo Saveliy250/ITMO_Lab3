@@ -1,14 +1,13 @@
 package Enums;
 
 public enum Conditions {
-    TIRED ("усталый"),
-    BIG ("большая"),
-    WET("мокрый");
+    TIRED ("Tired"),
+    WET("Wet");
 
 
 
 
-    private String title;
+    private final  String title;
     Conditions(String title){
         this.title = title;
     }
