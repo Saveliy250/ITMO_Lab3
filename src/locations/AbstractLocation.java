@@ -35,7 +35,7 @@ public abstract class AbstractLocation {
     }
     public void exitLocation(Character character){
         removeCharacters(character);
-        System.out.println(character.getName() + "leaves" + getName());
+        System.out.println(character.getName() + " leaves " + getName());
     }
 
 }

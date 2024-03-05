@@ -10,6 +10,8 @@ public class City extends AbstractLocation{
 
     @Override
     public void interactLoc(Character character) {
-        character.setCurrentEmotion(Emotions.NERVOUS);
+        if (character.getLocation() == this) {
+            character.setCurrentEmotion(Emotions.NERVOUS);
+        }
     }
 }
