@@ -6,6 +6,7 @@ public enum Emotions {
     SCARED("Scared"),
     CALM("Calm"),
     SAD("Sad"),
+    ANGRY("Angry"),
     HAPPY("Happy");
 
     private final String title;

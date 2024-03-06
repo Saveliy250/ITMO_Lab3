@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractLocation {
-    private String name;
+    protected String name;
     private List<Character> characters = new ArrayList<>();
     public AbstractLocation(String name){
         this.name = name;
@@ -36,6 +36,10 @@ public abstract class AbstractLocation {
     public void exitLocation(Character character){
         removeCharacters(character);
         System.out.println(character.getName() + " leaves " + getName());
+    }
+    @Override
+    public String toString(){
+        return this.getName();
     }
 
 }
