@@ -6,6 +6,8 @@ import Interfaces.Ropenable;
 import locations.AbstractLocation;
 import locations.City;
 
+import java.util.Objects;
+
 public class Character implements Ropenable {
     private final String name;
     private int stamina;
@@ -158,7 +160,7 @@ public class Character implements Ropenable {
         }
     }
     public void see(Object o){
-        System.out.println(name + " saw " + o.toString());
+        System.out.println(name + " saw " + o);
     }
     public void shout(String shout){
         System.out.println(name + " shouted: " + "'" + shout + "'");
@@ -217,4 +219,27 @@ public class Character implements Ropenable {
 
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Character character = (Character) o;
+        return stamina == character.stamina && speed == character.speed && Objects.equals(name, character.name) && currentCondition == character.currentCondition && currentEmotion == character.currentEmotion;
+    }
+
+    @Override
+    public int hashCode() {
+        int total = 37;
+        total = total * 37 + name.hashCode();
+        total = total * 37 + stamina;
+        total = total * 37 + currentEmotion.hashCode();
+        total = total * 37 + currentCondition.hashCode();
+        total = total * 37 + speed;
+        return total;
+    }
 }

@@ -5,10 +5,11 @@ import Objects.Character;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class AbstractLocation {
     protected String name;
-    private List<Character> characters = new ArrayList<>();
+    private final List<Character> characters = new ArrayList<>();
     public AbstractLocation(String name){
         this.name = name;
     }
@@ -39,7 +40,21 @@ public abstract class AbstractLocation {
     }
     @Override
     public String toString(){
-        return this.getName();
+        return getName();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractLocation that = (AbstractLocation) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int total = 37;
+        total = total * 37 + name.hashCode();
+        return total;
+    }
 }

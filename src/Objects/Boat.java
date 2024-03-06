@@ -4,6 +4,8 @@ import Enums.Conditions;
 import Objects.Character;
 import locations.AbstractLocation;
 
+import java.util.Objects;
+
 public class Boat{
 
     private final String name;
@@ -38,7 +40,22 @@ public class Boat{
 
     @Override
     public String toString(){
-        return this.getName();
+        return getName();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Boat boat = (Boat) o;
+        return Objects.equals(name, boat.name) && currentCondition == boat.currentCondition;
+    }
+
+    @Override
+    public int hashCode() {
+        int total = 37;
+        total = total * 37 + name.hashCode();
+        total = total * 37 + currentCondition.hashCode();
+        return total;
+    }
 }
