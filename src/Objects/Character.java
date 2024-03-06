@@ -2,11 +2,11 @@ package Objects;
 
 import Enums.Conditions;
 import Enums.Emotions;
-import emotions.AbstractEmotion;
+import Interfaces.Ropenable;
 import locations.AbstractLocation;
 import locations.City;
 
-public class Character {
+public class Character implements Ropenable {
     private final String name;
     private int stamina;
     private Conditions currentCondition;
@@ -17,6 +17,7 @@ public class Character {
     private int bricksCount;
     private int speed;
     private Paddle paddle;
+    private Rope rope;
     public Character(String name){
         this.name = name;
 
@@ -105,6 +106,21 @@ public class Character {
         this.paddle = paddle;
     }
 
+    public Rope getRope() {
+        return rope;
+    }
+
+    public void setRope(Rope rope) {
+        if (this.getRope() != rope) {
+            this.rope = rope;
+        }
+    }
+
+    @Override
+    public void rope(Rope rope){
+        this.setRope(rope);
+    }
+
     public void exitBoat(Boat boat){
         if (this.boat == boat){
             this.boat = null;
@@ -147,16 +163,45 @@ public class Character {
     public void shout(String shout){
         System.out.println(name + " shouted: " + "'" + shout + "'");
     }
-    public boolean row(Paddle paddle){
+    public boolean row(Boat boat, Paddle paddle){
         this.setPaddle(paddle);
         if (this.stamina > 20){
             System.out.println(name + " is rowing");
+            boat.setSpeed((int) (this.getStamina() * 1.5));
             this.setStamina(this.getStamina() - 10);
             return true;
         } else {
             System.out.println(name + " cant row now and dropped paddle in water");
             this.paddle = null;
             return false;
+        }
+    }
+    public void stopRowing(Boat boat){
+        this.paddle = null;
+        System.out.println(name + " stopped rowing");
+        boat.setSpeed(-5);
+    }
+    public void tie(Brick brick, Rope rope, Character character){
+        if (this.bricksCount > 0) {
+            if (this.getCurrentCondition() != Conditions.WET) {
+                character.rope(rope);
+                brick.rope(rope);
+                System.out.println(name + " tied " + brick.getName() + " with " + character.getName());
+                character.setCurrentEmotion(Emotions.RELAXED);
+            } else {
+                if (Math.random()*1 <= 0.4){
+                    System.out.println(character.getName() + " slips out of the loop");
+                    character.setCurrentEmotion(Emotions.SURPRISED);
+                } else {
+                    character.rope(rope);
+                    brick.rope(rope);
+                    System.out.println(name + " tied " + brick.getName() + " with " + character.getName());
+                    character.setCurrentEmotion(Emotions.RELAXED);
+                }
+            }
+        } else {
+            System.out.println("No bricks to tie with");
+            character.setCurrentEmotion(Emotions.HAPPY);
         }
     }
 
