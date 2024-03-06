@@ -204,5 +204,17 @@ public class Character implements Ropenable {
             character.setCurrentEmotion(Emotions.HAPPY);
         }
     }
+    public void dying(){
+        for (int i = this.getStamina(); i > 0; i = i - 15){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ignored){
+            }
+            this.setStamina(i);
+            System.out.println(". . .");
+        }
+        System.out.println(name + " is dead(");
+
+    }
 
 }

@@ -24,6 +24,7 @@ public class Main {
 
 
         gerasim.setStamina(100);
+        mumu.setStamina(100);
         city.addCharacters(gerasim, mumu, oldMan);
         gerasim.setSpeed(20);
         mumu.setSpeed(20);
@@ -59,8 +60,7 @@ public class Main {
             oldMan.think("There is nothing i can do");
             oldMan.setCurrentEmotion(Emotions.CALM);
             System.out.println("\n");
-            gerasim.setLocation(river);
-            mumu.setLocation(river);
+            river.addCharacters(gerasim, mumu);
             gerasim.row(boat2, paddle);
             gerasim.see(smallVillage);
             gerasim.setCurrentEmotion(Emotions.SAD);
@@ -69,8 +69,48 @@ public class Main {
             gerasim.setCurrentCondition(Conditions.WET);
             gerasim.tie(brick, rope, mumu);
             if (mumu.getRope() != null){
-
+                mumu.exitBoat(boat2);
+                river.interactLoc(mumu);
+                mumu.dying();
+                gerasim.setCurrentEmotion(Emotions.DEPRESSED);
+                if (gerasim.row(boat2, paddle)){
+                    river.exitLocation(gerasim);
+                    mainVillage.addCharacters(gerasim);
+                    gerasim.exitBoat(boat2);
+                    mainVillage.interactLoc(gerasim);
+                    System.out.println("\nDefault ending");
+                } else {
+                    river.exitLocation(gerasim);
+                    city.addCharacters(gerasim);
+                    gerasim.exitBoat(boat2);
+                    oldMan.shout("You'll work for this paddle!");
+                    gerasim.setCurrentEmotion(Emotions.SCARED);
+                    System.out.println("\nAlternative ending");
+                }
             } else {
+                gerasim.think("Wait, i love this dog!");
+                gerasim.setCurrentEmotion(Emotions.HAPPY);
+                if (gerasim.row(boat2, paddle)){
+                    river.exitLocation(gerasim);
+                    river.exitLocation(mumu);
+                    mainVillage.addCharacters(gerasim, mumu);
+                    gerasim.exitBoat(boat2);
+                    mumu.exitBoat(boat2);
+                    mainVillage.interactLoc(gerasim);
+                    mainVillage.interactLoc(mumu);
+                    System.out.println("\nGood ending");
+                } else {
+                    river.exitLocation(gerasim);
+                    river.exitLocation(mumu);
+                    city.addCharacters(gerasim, mumu);
+                    gerasim.exitBoat(boat2);
+                    mumu.exitBoat(boat2);
+                    oldMan.shout("You'll work for this paddle!");
+                    gerasim.setCurrentEmotion(Emotions.SCARED);
+                    mumu.setCurrentEmotion(Emotions.HAPPY);
+                    mumu.think("I love Gerasim!");
+                    System.out.println("\nAlternative good ending");
+                }
 
             }
         } else {
