@@ -2,7 +2,7 @@ package locations;
 
 import Enums.Conditions;
 import Enums.Emotions;
-import Objects.Character;
+import MyObjects.Character;
 
 public class River extends AbstractLocation{
     public River(String name){

@@ -1,7 +1,8 @@
 import Enums.Conditions;
 import Enums.Emotions;
-import Objects.*;
-import Objects.Character;
+import Enums.WeatherType;
+import MyObjects.*;
+import MyObjects.Character;
 import locations.City;
 import locations.River;
 import locations.Village;
@@ -21,6 +22,8 @@ public class Main {
         Paddle paddle = new Paddle("Paddle");
         Brick brick = new Brick("Brick");
         Rope rope = new Rope("Rope");
+        WeatherType rain = WeatherType.RAINY;
+        WeatherType wind = WeatherType.WINDY;
 
 
         gerasim.setStamina(100);
@@ -61,9 +64,11 @@ public class Main {
             oldMan.setCurrentEmotion(Emotions.CALM);
             System.out.println("\n");
             river.addCharacters(gerasim, mumu);
+            rain.getWeather().interact(gerasim, boat2);
             gerasim.row(boat2, paddle);
             gerasim.see(smallVillage);
             gerasim.setCurrentEmotion(Emotions.SAD);
+            wind.getWeather().interact(gerasim, boat2);
             gerasim.row(boat2, paddle);
             gerasim.stopRowing(boat2);
             gerasim.setCurrentCondition(Conditions.WET);

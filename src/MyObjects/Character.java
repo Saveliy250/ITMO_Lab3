@@ -1,14 +1,15 @@
-package Objects;
+package MyObjects;
 
 import Enums.Conditions;
 import Enums.Emotions;
 import Interfaces.Ropenable;
+import Interfaces.Thinkable;
 import locations.AbstractLocation;
 import locations.City;
 
 import java.util.Objects;
 
-public class Character implements Ropenable {
+public class Character implements Ropenable, Thinkable {
     private final String name;
     private int stamina;
     private Conditions currentCondition;
@@ -141,6 +142,7 @@ public class Character implements Ropenable {
         this.setSpeed(0);
         System.out.println(name + " stopped");
     }
+    @Override
     public void think(String thought){
         System.out.println(name + " is thinking: " + thought);
     }

@@ -1,7 +1,7 @@
 package locations;
 
 import Enums.Emotions;
-import Objects.Character;
+import MyObjects.Character;
 
 public class Village extends AbstractLocation{
     public Village(String name){

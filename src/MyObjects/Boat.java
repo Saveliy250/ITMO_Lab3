@@ -1,8 +1,6 @@
-package Objects;
+package MyObjects;
 
 import Enums.Conditions;
-import Objects.Character;
-import locations.AbstractLocation;
 
 import java.util.Objects;
 
@@ -37,6 +35,7 @@ public class Boat{
         this.speed = speed;
         System.out.println(name + " is moving at speed: " + speed);
     }
+
 
     @Override
     public String toString(){

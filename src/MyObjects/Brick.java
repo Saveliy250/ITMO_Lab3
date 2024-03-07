@@ -1,4 +1,4 @@
-package Objects;
+package MyObjects;
 
 import Interfaces.Ropenable;
 

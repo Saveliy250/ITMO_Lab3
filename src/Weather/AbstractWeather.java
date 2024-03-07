@@ -1,6 +1,7 @@
 package Weather;
 
-import Objects.Character;
+import MyObjects.Boat;
+import MyObjects.Character;
 
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ public abstract class AbstractWeather {
     public String getTitle(){
         return title;
     }
-    public abstract void interact(Character character);
+    public abstract void interact(Character character, Boat boat);
 
     @Override
     public String toString() {

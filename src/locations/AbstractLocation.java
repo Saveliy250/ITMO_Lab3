@@ -1,6 +1,6 @@
 package locations;
 
-import Objects.Character;
+import MyObjects.Character;
 
 import java.util.ArrayList;
 import java.util.Arrays;

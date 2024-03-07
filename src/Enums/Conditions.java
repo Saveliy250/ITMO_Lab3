@@ -1,11 +1,7 @@
 package Enums;
 
 public enum Conditions {
-    TIRED ("Tired"),
     WET("Wet");
-
-
-
 
     private final  String title;
     Conditions(String title){
