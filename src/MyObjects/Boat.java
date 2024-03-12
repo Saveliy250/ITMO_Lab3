@@ -1,6 +1,7 @@
 package MyObjects;
 
 import Enums.Conditions;
+import Interfaces.Ropenable;
 
 import java.util.Objects;
 
@@ -34,6 +35,28 @@ public class Boat{
     public void setSpeed(int speed) {
         this.speed = speed;
         System.out.println(name + " is moving at speed: " + speed);
+    }
+    public class Anchor implements Ropenable{
+        private Rope rope;
+        private final String name;
+        public Anchor(String name){
+            this.name = name;
+        }
+
+
+        public Rope getRope() {
+            return rope;
+        }
+
+        public void setRope(Rope rope) {
+            this.rope = rope;
+        }
+
+        @Override
+        public void rope(Rope rope){
+            this.rope = rope;
+            System.out.println(name + "  was roped");
+        }
     }
 
 
