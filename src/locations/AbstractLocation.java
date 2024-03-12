@@ -1,6 +1,7 @@
 package locations;
 
 import MyObjects.Character;
+import exceptions.AddCharactersToLocException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,9 +22,12 @@ public abstract class AbstractLocation {
         Character[] characters = new Character[this.characters.size()];
         return this.characters.toArray(characters);
     }
-    public void addCharacters(Character... characters){
-        this.characters.addAll(Arrays.asList(characters));
+    public void addCharacters(Character... characters) throws AddCharactersToLocException {
         for(Character character: characters){
+            if (this.characters.contains(character)){
+                throw new AddCharactersToLocException(character + "is already in location");
+            }
+            this.characters.add(character);
             character.setLocation(this);
         }
     }

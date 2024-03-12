@@ -133,10 +133,12 @@ public class Character implements Ropenable, Thinkable {
         this.setRope(rope);
     }
 
-    public void exitBoat(Boat boat){
-        if (this.boat == boat){
-            this.boat = null;
+    public void exitBoat() throws BoatFailException{
+        if (this.boat != null){
             System.out.println(name + " is got out of a " + boat.getName());
+            this.boat = null;
+        }else{
+            throw new BoatFailException("No boat to get out of");
         }
     }
     public void walk(){
