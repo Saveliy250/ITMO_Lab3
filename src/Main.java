@@ -1,6 +1,7 @@
 import Enums.Conditions;
 import Enums.Emotions;
 import Enums.WeatherType;
+import Interfaces.Thinkable;
 import MyObjects.*;
 import MyObjects.Character;
 import exceptions.BoatFailException;
@@ -65,6 +66,21 @@ public class Main {
         oldMan.stop();
         oldMan.shout("HEY!");
         oldMan.setCurrentEmotion(Emotions.ANGRY);
+        Thinkable storyTeller = new Thinkable() {
+            public final String name = "Turgenev";
+            @Override
+            public void think(String thought) {
+                System.out.println(name + " thinks: " + choiceThought());
+            }
+            public String choiceThought(){
+                return switch ((int) (Math.random() * 2)){
+                    case 0 -> "Interesting, what happend next?";
+                    case 1 -> "I would love a story like that.";
+                    case 2 -> "I would like to understand the feelings of the characters.";
+                    default -> null;
+                };
+            }
+        };
         try{
             gerasim.row(paddle);
         } catch(BoatFailException | NoStaminaException e){
@@ -118,6 +134,7 @@ public class Main {
                     }
                     mainVillage.interactLoc(gerasim);
                     System.out.println("\nDefault ending");
+                    storyTeller.think("");
                 } else {
                     river.exitLocation(gerasim);
                     city.addCharacters(gerasim);
@@ -129,6 +146,7 @@ public class Main {
                     oldMan.shout("You'll work for this paddle!");
                     gerasim.setCurrentEmotion(Emotions.SCARED);
                     System.out.println("\nAlternative ending");
+                    storyTeller.think("");
                 }
             } else {
                 gerasim.think("Wait, i love this dog!");
@@ -151,6 +169,7 @@ public class Main {
                     mainVillage.interactLoc(gerasim);
                     mainVillage.interactLoc(mumu);
                     System.out.println("\nGood ending");
+                    storyTeller.think("");
                 } else {
                     river.exitLocation(gerasim);
                     river.exitLocation(mumu);
@@ -166,6 +185,7 @@ public class Main {
                     mumu.setCurrentEmotion(Emotions.HAPPY);
                     mumu.think("I love Gerasim!");
                     System.out.println("\nAlternative good ending");
+                    storyTeller.think("");
                 }
 
             }
@@ -180,6 +200,7 @@ public class Main {
             gerasim.setCurrentEmotion(Emotions.SCARED);
             mumu.setCurrentEmotion(Emotions.CALM);
             System.out.println("\nAlternative ending");
+            storyTeller.think("");
         }
 
     }
