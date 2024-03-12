@@ -4,6 +4,9 @@ import Enums.Conditions;
 import Enums.Emotions;
 import Interfaces.Ropenable;
 import Interfaces.Thinkable;
+import exceptions.BoatFailException;
+import exceptions.NoBrickException;
+import exceptions.NoStaminaException;
 import locations.AbstractLocation;
 import locations.City;
 
@@ -21,6 +24,7 @@ public class Character implements Ropenable, Thinkable {
     private int speed;
     private Paddle paddle;
     private Rope rope;
+    private boolean rowing = false;
     public Character(String name){
         this.name = name;
 
@@ -28,6 +32,11 @@ public class Character implements Ropenable, Thinkable {
     public String getName(){
         return name;
     }
+
+    public boolean isRowing() {
+        return rowing;
+    }
+
     public Conditions getCurrentCondition(){
         return currentCondition;
     }
@@ -147,18 +156,18 @@ public class Character implements Ropenable, Thinkable {
         System.out.println(name + " is thinking: " + thought);
     }
 
-    public void takeBricks(City.Yard yard, int brickCount){
+    public void takeBricks(City.Yard yard, int brickCount) throws NoBrickException {
         if (this.visitloc == yard){
             if (yard.getBrickCount() >= brickCount) {
                 yard.setBrickCount(yard.getBrickCount() - brickCount);
                 this.setBricksCount(this.getBricksCount() + brickCount);
                 System.out.println(name + " took " + brickCount + " bricks");
             } else {
-                System.out.println(name + " didnt find needed amount of bricks");
                 this.setCurrentEmotion(Emotions.SAD);
+                throw new NoBrickException("There is no needed amount of bricks");
             }
         } else {
-            System.out.println("There is no bricks in this place");
+            throw new NoBrickException("There is no bricks in this place");
         }
     }
     public void see(Object o){
@@ -167,23 +176,31 @@ public class Character implements Ropenable, Thinkable {
     public void shout(String shout){
         System.out.println(name + " shouted: " + "'" + shout + "'");
     }
-    public boolean row(Boat boat, Paddle paddle){
+    public void row(Paddle paddle) throws BoatFailException, NoStaminaException {
         this.setPaddle(paddle);
-        if (this.stamina > 20){
-            System.out.println(name + " is rowing");
-            boat.setSpeed((int) (this.getStamina() * 1.5));
-            this.setStamina(this.getStamina() - 10);
-            return true;
+        if (boat != null) {
+            if (this.stamina > 20) {
+                System.out.println(name + " is rowing");
+                boat.setSpeed((int) (this.getStamina() * 1.5));
+                this.setStamina(this.getStamina() - 10);
+                this.rowing = true;
+            } else {
+                this.paddle = null;
+                throw new NoStaminaException(name + " cant row now and dropped paddle in water");
+            }
         } else {
-            System.out.println(name + " cant row now and dropped paddle in water");
-            this.paddle = null;
-            return false;
+            throw new BoatFailException("There is no boat for rowing");
         }
     }
-    public void stopRowing(Boat boat){
-        this.paddle = null;
-        System.out.println(name + " stopped rowing");
-        boat.setSpeed(-5);
+    public void stopRowing() throws BoatFailException{
+        if (this.boat != null) {
+            this.paddle = null;
+            this.rowing = false;
+            System.out.println(name + " stopped rowing");
+            boat.setSpeed(-5);
+        } else {
+            throw new BoatFailException("There is no boat to stopp rowing");
+        }
     }
     public void tie(Brick brick, Rope rope, Character character){
         if (this.bricksCount > 0) {

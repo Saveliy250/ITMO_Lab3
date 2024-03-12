@@ -3,6 +3,9 @@ import Enums.Emotions;
 import Enums.WeatherType;
 import MyObjects.*;
 import MyObjects.Character;
+import exceptions.BoatFailException;
+import exceptions.NoBrickException;
+import exceptions.NoStaminaException;
 import locations.City;
 import locations.River;
 import locations.Village;
@@ -26,7 +29,7 @@ public class Main {
         WeatherType wind = WeatherType.WINDY;
 
 
-        gerasim.setStamina(100);
+        gerasim.setStamina(10);
         mumu.setStamina(100);
         city.addCharacters(gerasim, mumu, oldMan);
         gerasim.setSpeed(20);
@@ -42,7 +45,11 @@ public class Main {
         mumu.walk();
         yard.visit(gerasim);
         yard.setBrickCount(10);
-        gerasim.takeBricks(yard, 1);
+        try {
+            gerasim.takeBricks(yard, 1);
+        } catch (NoBrickException e){
+            System.out.println(e.getMessage());
+        }
         gerasim.walk();
         mumu.walk();
         gerasim.see(boat1);
@@ -56,7 +63,12 @@ public class Main {
         oldMan.stop();
         oldMan.shout("HEY!");
         oldMan.setCurrentEmotion(Emotions.ANGRY);
-        if (gerasim.row(boat2, paddle)) {
+        try{
+            gerasim.row(paddle);
+        } catch(BoatFailException | NoStaminaException e){
+            System.out.println(e.getMessage());
+        }
+        if(gerasim.isRowing()){
             city.exitLocation(gerasim);
             city.exitLocation(mumu);
             oldMan.think("What a coward!");
@@ -65,20 +77,36 @@ public class Main {
             System.out.println("\n");
             river.addCharacters(gerasim, mumu);
             rain.getWeather().interact(gerasim, boat2);
-            gerasim.row(boat2, paddle);
+            try{
+                gerasim.row(paddle);
+            } catch(BoatFailException | NoStaminaException e){
+                System.out.println(e.getMessage());
+            }
             gerasim.see(smallVillage);
             gerasim.setCurrentEmotion(Emotions.SAD);
             wind.getWeather().interact(gerasim, boat2);
-            gerasim.row(boat2, paddle);
-            gerasim.stopRowing(boat2);
-            gerasim.setCurrentCondition(Conditions.WET);
+            try{
+                gerasim.row(paddle);
+            } catch(BoatFailException | NoStaminaException e){
+                System.out.println(e.getMessage());
+            }
+            try{
+                gerasim.stopRowing();
+            } catch(BoatFailException e){
+                System.out.println(e.getMessage());
+            }
             gerasim.tie(brick, rope, mumu);
             if (mumu.getRope() != null){
                 mumu.exitBoat(boat2);
                 river.interactLoc(mumu);
                 mumu.dying();
                 gerasim.setCurrentEmotion(Emotions.DEPRESSED);
-                if (gerasim.row(boat2, paddle)){
+                try{
+                    gerasim.row(paddle);
+                } catch(BoatFailException | NoStaminaException e){
+                    System.out.println(e.getMessage());
+                }
+                if (gerasim.isRowing()){
                     river.exitLocation(gerasim);
                     mainVillage.addCharacters(gerasim);
                     gerasim.exitBoat(boat2);
@@ -95,7 +123,12 @@ public class Main {
             } else {
                 gerasim.think("Wait, i love this dog!");
                 gerasim.setCurrentEmotion(Emotions.HAPPY);
-                if (gerasim.row(boat2, paddle)){
+                try{
+                    gerasim.row(paddle);
+                } catch(BoatFailException | NoStaminaException e){
+                    System.out.println(e.getMessage());
+                }
+                if (gerasim.isRowing()){
                     river.exitLocation(gerasim);
                     river.exitLocation(mumu);
                     mainVillage.addCharacters(gerasim, mumu);
